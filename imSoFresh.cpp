@@ -13,6 +13,7 @@ using namespace std;
 
 
 class DynamicStringArray {
+	//will point to an array of strings
 	string * dynamicArry;
 	int size;
 	public:
@@ -33,18 +34,22 @@ int DynamicStringArray::getSize(void){
 }
 
 void DynamicStringArray::addEntry(string newStr){
+	//keep track of the old array
 	string * tempPtr = dynamicArry;
-	size++;
-	cout << size <<endl;
-	dynamicArry = new string[size];
-	cout << "something\n" << newStr << endl;
+
+	//create a new array
+	dynamicArry = new string[size + 1];
 	dynamicArry[size].assign(newStr);
-	cout<< "test1"<<endl;
+
+	//copy all the old values
+	for( int i = 0; i < size; i++)
+		dynamicArry[size] = tempPtr[size];
+
+	//dont try to delete the nullprt if this is the first string
 	if(size>0){
 		delete[] tempPtr;
 	}
-	cout<< "test2"<<endl;
-	
+	size++;
 }
 
 bool DynamicStringArray::deleteEntry(string findThis){
@@ -52,25 +57,18 @@ bool DynamicStringArray::deleteEntry(string findThis){
 }
 
 string DynamicStringArray::getEntry(int index){
-	if(index > size){
+	if(index >= size){
 		return nullptr;
 	}else{
-		return dynamicArry[size];
+		return dynamicArry[index];
 	}
 }
 
 int main(){
 
 	DynamicStringArray bookShelf;
-	cout<< "body test 1\n";
-//	bookShelf.addEntry("Success!\n");
-//	cout << bookShelf.getEntry(0);
-
-	string * myStr;
-	myStr = new string;
-	(*myStr).assign("hello");
-	cout << myStr->c_str() << endl;
+	bookShelf.addEntry("Success!\n");
+	cout << bookShelf.getEntry(0);
 
 	return 0;
-
 }
